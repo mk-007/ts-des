@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ООО "Торгсин" - Современное медицинское оборудование</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="catalog.js"></script>
+    <script src="logic.js"></script>
+    <script src="find.js"></script>
+    <link rel="icon" href="images/favicon.ico">
+</head>
+<body>
+<!-- Header -->
+<header>
+    <div class="container header-container">
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="Торгсин - Медицинское оборудование" class="logo-image">
+        </a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav>
+            <ul id="navMenu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="#about">О компании</a></li>
+                <li><a href="disinfection-chambers.html">Дезинфекционные камеры</a></li>
+                <li><a href="sterilizers.html">Стерилизаторы</a></li>
+                <li><a href="equipment.html">Иное оборудование</a></li>
+                <li><a href="#contacts">Контакты</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Инновационные решения для медицины</h1>
+            <p>Комплексное оснащение современным дезинфекционным, медицинским и лабораторным оборудованием по всей России</p>
+            <a href="catalog.html" class="btn">
+                <span>Изучить каталог</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title">О компании</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Ведущий поставщик медицинского оборудования</h3>
+                    <p>ООО "Торгсин" является официальным дистрибьютором АО «Медоборудование» с эксклюзивными правами на продажу дезинфекционных камер и стерилизаторов на территории Российской Федерации.</p>
+                    <p>Мы предлагаем полный цикл услуг: от консультации и подбора оборудования до монтажа, запуска и обучения персонала. Наши специалисты помогут выбрать оптимальное решение для вашего медицинского учреждения.</p>
+                    <p>Сотрудничая с нами, вы получаете не просто оборудование, а комплексное решение, включающее гарантийное и постгарантийное обслуживание, техническую поддержку и постоянное сопровождение.</p>
+                </div>
+                <div class="about-image">
+                    <div style="width:100%;height:400px;background:linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);display:flex;align-items:center;justify-content:center;color:white;font-size:1.2rem;">
+                        <img src="images/vfe-1.5-1.0/1.jpg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Search Section -->
+<section class="section search-section">
+    <div class="container">
+        <div class="search-section-content">
+            <h2 class="search-title">Найдите нужное Вам оборудование</h2>
+            <p class="search-subtitle">Большое количество позиций медицинского оборудования в каталоге</p>
+            
+            <div class="search-container-centered">
+                <div class="search-box">
+                    <input type="text" id="productSearch" placeholder="Например: дезинфекционная камера..." class="search-input">
+                    <button class="search-btn" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="search-clear" id="searchClear" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="search-results" id="searchResults"></div>
+            </div>
+            
+            <div class="search-tags">
+                <span>Популярные запросы:</span>
+                <button class="search-tag" data-search="дезинфекционная">Дезинфекционные камеры</button>
+                <button class="search-tag" data-search="стерилизатор">Стерилизаторы</button>
+                <button class="search-tag" data-search="аквадистиллятор">Аквадистилляторы</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Contacts Section -->
+    <section class="section" id="contacts">
+        <div class="container">
+            <h2 class="section-title">Контакты</h2>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div>
+                    <h3>Телефон</h3>
+                    <p>+7 (831) 462-05-47</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div>
+                    <h3>Электронная почта</h3>
+                    <p>torgsin_sale@mail.ru</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div>
+                    <h3>Наш адрес</h3>
+                    <p>г. Нижний Новгород, ул. Горная, д.11к3</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>О компании</h3>
+                    <p>ООО "Торгсин" - официальный дистрибьютор АО «Медоборудование» с эксклюзивным правом продажи на территории РФ. Мы обеспечиваем медицинские учреждения современным и надежным оборудованием.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Продукция</h3>
+                    <ul>
+                    <li><a href="disinfection-chambers.html"><i class="fas fa-chevron-right"></i> Дезинфекционные камеры</a></li>
+                    <li><a href="sterilizers.html"><i class="fas fa-chevron-right"></i> Паровые стерилизаторы</a></li>
+                    <li><a href="equipment.html"><i class="fas fa-chevron-right"></i> Другое оборудование</a></li>
+                </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <p><i class="fas fa-phone"></i> +7 (831) 462-05-47</p>
+                    <p><i class="fas fa-envelope"></i> torgsin_sale@mail.ru</p>
+                    <p><i class="fas fa-clock"></i> Пн-Пт: 9:00-18:00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ООО "Торгсин". Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (mobileMenuBtn && navMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (navMenu.classList.contains('active')) {
+                        icon.className = 'fas fa-times';
+                    } else {
+                        icon.className = 'fas fa-bars';
+                    }
+                });
+                
+                // Close mobile menu when clicking on links
+                document.querySelectorAll('#navMenu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+                    });
+                });
+            }
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
