@@ -337,26 +337,40 @@ class CategoryPage {
             let aValue = this.getProductValue(a, this.currentSort);
             let bValue = this.getProductValue(b, this.currentSort);
 
-            if (this.sortDirection === 'desc') {
-                [aValue, bValue] = [bValue, aValue];
-            }
+            // Пропускаем невалидные значения
+            if (aValue === '-' || aValue === undefined || aValue === null) aValue = '';
+            if (bValue === '-' || bValue === undefined || bValue === null) bValue = '';
 
-            if (typeof aValue === 'string') {
-                return aValue.localeCompare(bValue);
-            } else {
-                const numA = this.parseNumericValue(aValue);
-                const numB = this.parseNumericValue(bValue);
-                return (numA || 0) - (numB || 0);
+            // Парсим числовые значения
+            const numA = this.parseNumericValue(aValue);
+            const numB = this.parseNumericValue(bValue);
+            
+            // Если оба значения числовые, сортируем как числа
+            if (!isNaN(numA) && !isNaN(numB)) {
+                let result = numA - numB;
+                // Меняем порядок только для нисходящей сортировки
+                return this.sortDirection === 'desc' ? -result : result;
             }
+            
+            // Если хотя бы одно значение не числовое, сортируем как строки
+            const strA = String(aValue || '');
+            const strB = String(bValue || '');
+            let result = strA.localeCompare(strB);
+            
+            return this.sortDirection === 'desc' ? -result : result;
         });
     }
 
     parseNumericValue(value) {
         if (typeof value === 'number') return value;
-        if (typeof value !== 'string') return 0;
+        if (typeof value !== 'string') return NaN;
         
+        // Удаляем все нечисловые символы кроме точек, запятых и минусов
         const numericString = value.replace(/[^\d,.-]/g, '').replace(',', '.');
-        return parseFloat(numericString) || 0;
+        
+        // Проверяем, является ли результат валидным числом
+        const parsed = parseFloat(numericString);
+        return isNaN(parsed) ? NaN : parsed;
     }
 
     getProductValue(product, key) {
@@ -416,7 +430,6 @@ class CategoryPage {
                         </div>
                         <div class="product-info-small">
                             <strong>${product.name}</strong>
-                            <span class="product-category">${this.getCategoryName()}</span>
                         </div>
                     </a>
                 </div>
@@ -574,7 +587,7 @@ class CategoryPage {
                     ${simplifiedTable.outerHTML}
                     <div class="footer">
                         <p><strong>Контактная информация:</strong></p>
-                        <p>Телефон: +7 (831) 462-05-47 | Email: sales@tsmed.ru</p>
+                        <p>Телефон: +7 (831) 462-05-47 | Email: torgsin_sale@mail.ru</p>
                         <p>ООО "Торгсин" - официальный дистрибьютор медицинского оборудования</p>
                     </div>
                 </body>

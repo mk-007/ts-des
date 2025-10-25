@@ -1890,8 +1890,9 @@ footer {
 }
 
 .spec-item {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1.9fr 1fr; /* Равные колонки */
+    gap: 10px; /* Расстояние между колонками */
     align-items: center;
     padding: 12px 0;
     border-bottom: 1px solid var(--gray-200);
@@ -1900,11 +1901,13 @@ footer {
 .spec-label {
     font-weight: 600;
     color: var(--text);
+    text-align: left;
 }
 
 .spec-value {
     color: var(--text-light);
     text-align: right;
+    word-break: break-word; /* Перенос длинных слов */
 }
 
 .price-notice {
@@ -2326,3 +2329,7 @@ footer {
         padding: 8px 0;
     }
 }
+
+
+
+

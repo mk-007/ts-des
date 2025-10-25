@@ -7,9 +7,8 @@ class ProductPage {
 
     getProductIdFromUrl() {
         const urlParams = new URLSearchParams(window.location.search);
-        return parseInt(urlParams.get('id')) || 1; // По умолчанию ID 1
+        return parseInt(urlParams.get('id')) || 1;
     }
-
     init() {
         this.findProduct();
         if (this.product) {
@@ -20,7 +19,6 @@ class ProductPage {
             this.showProductNotFound();
         }
     }
-
     findProduct() {
         for (const category in productsByCategory) {
             this.product = productsByCategory[category].find(p => p.id === this.productId);
@@ -30,11 +28,29 @@ class ProductPage {
             }
         }
     }
+    renderPrice() {
+        const priceNotice = document.querySelector('.price-notice');
+        
+        if (this.product.price) {
+            priceNotice.innerHTML = `
+                <div class="product-price">
+                    <span class="price-label">Цена:</span>
+                    <span class="price-value">${this.product.price}</span>
+                </div>
+            `;
+        } else {
+            priceNotice.innerHTML = `
+                <i class="fas fa-info-circle"></i>
+                <p><strong>Цена:</strong> Индивидуальный расчет для каждого заказчика. Для получения коммерческого предложения свяжитесь с нашими менеджерами.</p>
+            `;
+        }
+    }
 
     renderProduct() {
         this.updatePageTitle();
         this.renderGallery();
         this.renderProductInfo();
+        this.renderPrice();
         this.renderSpecifications();
         this.renderDocuments();
         this.updateBreadcrumbs();
@@ -77,31 +93,43 @@ class ProductPage {
 
     renderProductInfo() {
         document.getElementById('productTitle').textContent = this.product.name;
-        document.getElementById('productDescription').textContent = this.product.description;
+        document.getElementById('productDescription').innerHTML = this.product.longdescription;
     }
 
-renderSpecifications() {
-    const specsGrid = document.getElementById('specsGrid');
-    
-    if (this.product.specifications) {
-        // Показываем ВСЕ характеристики на странице товара
-        const specsHTML = Object.entries(this.product.specifications).map(([key, value]) => {
-            const label = this.getSpecLabel(key);
-            return `
-                <div class="spec-item">
-                    <span class="spec-label">${label}:</span>
-                    <span class="spec-value">${value}</span>
-                </div>
-            `;
-        }).join('');
+    renderSpecifications() {
+        const specsGrid = document.getElementById('specsGrid');
         
-        specsGrid.innerHTML = specsHTML;
-    } else {
-        specsGrid.innerHTML = '<p>Характеристики не указаны</p>';
+        if (this.product.specifications) {
+            let specsHTML = '';
+            
+            if (typeof tableConfig !== 'undefined' && tableConfig[this.product.category]) {
+                const categoryConfig = tableConfig[this.product.category];
+                
+                if (categoryConfig && categoryConfig.columns) {
+                    specsHTML = categoryConfig.columns
+                        .filter(column => column.key !== 'name' && this.product.specifications[column.key])
+                        .map(column => {
+                            return `
+                                <div class="spec-item">
+                                    <span class="spec-label">${column.label}:</span>
+                                    <span class="spec-value">${this.product.specifications[column.key]}</span>
+                                </div>
+                            `;
+                        })
+                        .join('');
+                }
+            } else {
+                console.warn('tableConfig not found, using fallback specifications');
+                specsHTML = this.renderFallbackSpecifications();
+            }
+            
+            specsGrid.innerHTML = specsHTML || '<p>Характеристики не указаны</p>';
+        } else {
+            specsGrid.innerHTML = '<p>Характеристики не указаны</p>';
+        }
     }
-}
 
-    getSpecLabel(key) {
+    renderFallbackSpecifications() {
         const labels = {
             'volume': 'Объем камеры',
             'power': 'Мощность',
@@ -119,26 +147,27 @@ renderSpecifications() {
             'maxloading': 'Норма загрузки белья',
             'options': 'Варианты исполнения',
             'closemechanic': 'Механизм закрывания крышки',
-            'humidity': 'Остаточая влажность',
+            'humidity': 'Остаточная влажность',
             'modes': 'Количество режимов стерилизации',
             'type': 'Тип',
             'vacuumdry': 'Вакуумная сушка стерилизуемых изделий',
-            'sterboxes': 'Применяемые стерилизационные коробки',
-            'speedpeeple':'Пропускная способность — гигиеническая помывка людей',
-            'speedall':'Гигиеническая помывка одновременно с обработкой одежды',
-            'redytime':'Время подготовки к работе',
-            'setka':'Количество душевых сеток на душевом приборе',
-            'nosilki':'Приспособления для помывки носилочных больных',
-            'cotel':'Паровой котел',
-            'steem': 'Паропроизводительность',
-            'station':'Электростанция',
-            'purpose':'Назначение',
+            'purpose': 'Назначение',
             'efficiency': 'Производительность',
             'tan': 'Нагревательные элементы',
             'quality': 'Качество производимой воды'
         };
         
-        return labels[key] || key;
+        return Object.entries(this.product.specifications)
+            .map(([key, value]) => {
+                const label = labels[key] || key;
+                return `
+                    <div class="spec-item">
+                        <span class="spec-label">${label}:</span>
+                        <span class="spec-value">${value}</span>
+                    </div>
+                `;
+            })
+            .join('');
     }
 
     renderDocuments() {
@@ -199,40 +228,49 @@ renderSpecifications() {
         return pages[this.product.category] || 'index.html';
     }
 
-}
+    showProductNotFound() {
+        const mainContent = document.querySelector('main');
+        if (mainContent) {
+            mainContent.innerHTML = `
+                <div class="product-not-found">
+                    <h1>Товар не найден</h1>
+                    <p>Извините, запрашиваемый товар не существует или был удален.</p>
+                    <a href="index.html" class="btn btn-primary">Вернуться на главную</a>
+                </div>
+            `;
+        }
+    }
 
-// Mobile menu functionality
+    loadRelatedProducts() {
+        console.log('Загрузка связанных товаров...');
+    }
+}
 class MobileMenu {
     constructor() {
         this.menuBtn = document.getElementById('mobileMenuBtn');
         this.navMenu = document.getElementById('navMenu');
         this.init();
     }
-
     init() {
         if (this.menuBtn && this.navMenu) {
             this.setupEventListeners();
         }
     }
-
     setupEventListeners() {
         this.menuBtn.addEventListener('click', () => {
             this.toggleMenu();
         });
-
         document.querySelectorAll('#navMenu a').forEach(link => {
             link.addEventListener('click', () => {
                 this.closeMenu();
             });
         });
-
         document.addEventListener('click', (e) => {
             if (!e.target.closest('nav') && !e.target.closest('.mobile-menu-btn')) {
                 this.closeMenu();
             }
         });
     }
-
     toggleMenu() {
         this.navMenu.classList.toggle('active');
         const icon = this.menuBtn.querySelector('i');
@@ -253,8 +291,11 @@ class MobileMenu {
         document.body.style.overflow = '';
     }
 }
-
 document.addEventListener('DOMContentLoaded', function() {
+    if (typeof productsByCategory === 'undefined') {
+        console.error('productsByCategory is not defined');
+        return;
+    }
     new MobileMenu();
     new ProductPage();
 });
