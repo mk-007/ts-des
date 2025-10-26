@@ -587,7 +587,7 @@ class CategoryPage {
                     ${simplifiedTable.outerHTML}
                     <div class="footer">
                         <p><strong>Контактная информация:</strong></p>
-                        <p>Телефон: +7 (831) 462-05-47 | Email: torgsin_sale@mail.ru</p>
+                        <p>Телефон: +7 (831) 462-05-47 | +7 (831) 462-00-34 | Email: torgsin_sale@mail.ru</p>
                         <p>ООО "Торгсин" - официальный дистрибьютор медицинского оборудования</p>
                     </div>
                 </body>
